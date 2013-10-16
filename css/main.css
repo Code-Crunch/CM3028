@@ -1,0 +1,38 @@
+/* @author Marina Shchukina, 1014481 */
+.outer-wrapper {
+	width: 976px;
+	margin: 0 auto;
+	position: relative;
+}
+.description {
+	width: 712px;
+}
+
+/* Sign in */
+.auth {
+	width: 200px;
+	position: absolute;
+	top: 25px;
+	right: 0px;
+}
+.auth input {
+	margin-bottom: 12px;
+}
+.auth_login {
+
+}
+
+.auth__signin {
+	width: 100%;
+	display: block;
+}
+
+/* Choices */
+.choices-option {
+	float: left;
+	width: 33%;
+}
+.choices__search {
+	float: right;
+	margin-right: 24px;
+}
