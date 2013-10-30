@@ -9,7 +9,7 @@
 <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
-	<div id="textbooks-app">
+	<div id="textbooksApp-main">
 
     	<!-- keyword search -->
     	<fieldset class="keywordSearch">
@@ -22,19 +22,19 @@
     	<fieldset class="auth">
    			<input class="auth__login"></input>
    			<input class="auth__password"></input>
-   		<a id="search" class="auth__signin btn">Login &gt;</a>
+   		<a id="signIn" class="auth__signin btn">Login &gt;</a>
+   		<a id="register" class="auth__register">Not a member? <span class="btn-small">Register &gt;</span></a>
    		</fieldset>
     	<!-- /sign in -->
 
-    	<div class="inner-wrapper">
-    		<?php echo 'hello'; ?>
+    	<div class="innerWrapper">
 
     	<h1 class="title">School of Computing Science &amp; Digital Media</h1>
-
     	<h2 class="subtitle">Current session: 2013/14</h2>
-    	<p class="description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
-    	
 
+    	<p class="description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
+
+    	<!-- choices -->
     	<fieldset class="choices">
     		<div class="choices-option">
 			<label class="choices__course">Course</label>
@@ -42,8 +42,8 @@
 				<div class="select">
 					<select class="choices__course">
 						<option value="">Select...</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
+						<option value="CS">Computer Science, BSc.</option>
+						<option value="IM">Internet and Multimedia, BSc.</option>
 					</select>
 				</div>
 			</div>
@@ -51,44 +51,47 @@
 			<!-- /course -->
 
 			<div class="choices-option">
-			<label class="choices__year">Course year</label>
-			<div class="choices__select">
-				<div class="select">
-					<select class="choices__year">
-						<option value="">Select...</option>
-						<option value="1">1</option>
-						<option value="2">2</option>
-						<option value="3">3</option>
-						<option value="4">4</option>
-					</select>
+				<label class="choices__year">Course year</label>
+				<div class="choices__select">
+					<div class="select">
+						<select class="choices__year">
+							<option value="">Select...</option>
+							<option value="1">1</option>
+							<option value="2">2</option>
+							<option value="3">3</option>
+							<option value="4">4</option>
+						</select>
+					</div>
 				</div>
-			</div>
 			</div>
 			<!-- /year -->
 
 			<div class="choices-option">
-			<label class="choices__module">Module</label>
-			<div class="choices__select">
-				<div class="select">	
-					<select class="choices__module">
-						<option value="">Select...</option>
-						<option value="cm101">CM101</option>
-						<option value="cm102">CM102</option>
-						<option value="cm103">CM103</option>
-						<option value="cm104">CM104</option>
-					</select>
+				<label class="choices__module">Module</label>
+				<div class="choices__select">
+					<div class="select">	
+						<select class="choices__module">
+							<option value="">Select...</option>
+							<option value="cm101">CM101</option>
+							<option value="cm102">CM102</option>
+							<option value="cm103">CM103</option>
+							<option value="cm104">CM104</option>
+						</select>
+					</div>
 				</div>
-			</div>
 			</div>
 			<!-- /module -->
 
+		<a href="courses.php" id="browseDatabase" class="choices__browse btn"></a>
+		<!-- /submit the form -->
 		</fieldset>
 		<!-- /choices -->
 
-		<a id="search" class="choices__search btn">SEARCH &gt;</a>
-		<!-- /submit the form -->
 
 	</div>
+
+	<?php include_once('inc/footer.inc.php'); ?>
+
    </div>
 
 </body>

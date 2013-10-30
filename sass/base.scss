@@ -1,70 +1,10 @@
 /* @author Marina Shchukina, 1014481 */
+
 body {
-	background: url('../img/wild_flowers.png');
+	background: url("#{$imgpath}wild_flowers.png");
 	background-attachment: fixed;
-}
-#textbooks-app {
-	width: 976px;
-	margin: 0 auto;
-	overflow: hidden;
-	position: relative;
-	background-color: #FFF;
-
-	/* Keyword search */
-	.keywordSearch {	
-		width: 217px;
-		position: absolute;
-		top: 25px;
-		left: 8px;
-		input {
-			margin: 8px 0 16px 0;
-		}
-	}
-
-	/* Authorized access */
-	.auth {
-		width: 200px;
-		position: absolute;
-		top: 25px;
-		right: 8px;
-		input {
-			margin-bottom: 12px;
-		}
-	}
-	.auth_login {
-
-	}
-
-	.auth__signin {
-		width: 100%;
-		display: block;
-	}
-
-	.description {
-		width: 95%;
-		margin: 16px auto;
-	}
-
-	/* Inner wrapper */
-	.inner-wrapper {
-		margin: 180px 16px 0;
-	}
-	.title {
-		width: 600px;
-		margin: 0 auto;
-	}
-	.subtitle {
-		width: 300px;
-		margin: 0 auto;
-	}
-
-	/* Choices */
-	.choices-option {
-		float: left;
-		width: 33%;
-	}
-	.choices__search {
-		float: right;
-		margin-right: 24px;
-	}
+	color: #505050;
+	font-family: $font-stack;
+	font-size: 13px;
+	@include reset;
 }

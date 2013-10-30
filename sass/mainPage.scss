@@ -1,0 +1,72 @@
+/* @author Marina Shchukina, 1014481 */
+
+#textbooksApp-main {
+	@include wrapper;
+
+	/* Keyword search */
+	.keywordSearch {	
+		width: 145px;
+		position: absolute;
+		top: 25px;
+		left: 8px;
+
+	}
+
+	/* Authorized access */
+	.auth {
+		width: 147px;
+		position: absolute;
+		top: 25px;
+		right: 8px;
+	}
+	.auth__signin {
+		width: 100%;
+		display: block;
+		margin-bottom: 8px;
+	}
+
+	.description {
+		width: 95%;
+		margin: 16px auto;
+	}
+
+	/* Inner wrapper */
+	.innerWrapper {
+		@include innerWrapper;
+	}
+	.title {
+		width: 667px;
+		margin: 0 auto 16px;
+	}
+	.subtitle {
+		width: 300px;
+		margin: 0 auto;
+	}
+
+	/* Choices */
+	.choices {
+		width: 95%;
+		margin: 87px auto;
+		height: 102px;
+	}
+	.choices-option {
+		float: left;
+		width: 29%;
+		label {
+			height: 1em;
+			padding: 0 !important;
+			margin-left: 16px;
+			font-size: 1.154em;
+			float: none;
+			width: 40px;
+		}
+	}
+	.choices__browse {
+		width: 5%;
+		float: left;
+		height: 44px;
+		margin-top: 28px;
+		background: url("#{$imgpath}search.png") top left no-repeat;
+	}
+
+}
