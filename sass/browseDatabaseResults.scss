@@ -1,0 +1,9 @@
+/* @author Marina Shchukina, 1014481 */
+
+#textbooksApp-courses {
+	@include wrapper;
+	.innerWrapper {
+		@include innerWrapper;
+		margin-top: 75px;
+	}
+}

@@ -1,0 +1,10 @@
+/* @author Marina Shchukina, 1014481 */
+
+body {
+	background: url("#{$imgpath}wild_flowers.png");
+	background-attachment: fixed;
+	color: #505050;
+	font-family: $font-stack;
+	font-size: 13px;
+	@include reset;
+}
