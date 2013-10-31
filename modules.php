@@ -9,14 +9,14 @@
 <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
-	<div id="textbooksApp-courses">
+	<div id="textbooksApp-modules">
 		<fieldset class="back">
-			<a href="index.php" class="btn">&lt; Back</a>
+			<a href="years.php" class="btn">&lt; Back</a>
 		</fieldset>
 
 		<div class="innerWrapper">
 
-			<h1 class="tableTitle">Courses</h1>
+			<h1 class="tableTitle">Modules</h1>
 
 			<!-- Table markup-->
 
@@ -26,9 +26,9 @@
 	
 			<thead>
 				<tr>
-					<th scope="col" class="wide" >Course title</th>
-					<th scope="col">Year of entry</th>
-					<th scope="col">Course duration</th>
+					<th scope="col">Module Code</th>
+					<th scope="col">Module Title</th>
+					<th scope="col">Module Description</th>
 					<th scope="col"></th>
 					<th scope="col"></th>
 					
@@ -40,30 +40,30 @@
 			
 				<tbody>
 					<tr>
-						<td class="wide"><a href="years.php">Computer Science</a></td>
-						<td>1</td>
-						<td>4</td>
+						<td>CM101</td>
+						<td><a href="books.php">Introduction to PHP</a></td>
+						<td>Lorem ipsum sit amet</td>
 						<td><a href="#">Edit</a></td>
 						<td><a href="#">Delete</a></td>
 					</tr>
 					<tr>
-						<td class="wide"><a href="years.php">Internet and Web Development</a></td>
-						<td>3</td>
-						<td>2</td>
+						<td>CM102</td>
+						<td class="medium"><a href="books.php">PHP for dummies</a></td>
+						<td class="medium">Lorem ipsum sit amet</td>
 						<td><a href="#">Edit</a></td>
 						<td><a href="#">Delete</a></td>
 					</tr>
 					<tr>
-						<td class="wide"><a href="years.php">Project Management in Computing</a></td>
-						<td>1</td>
-						<td>4</td>
+						<td>CM103</td>
+						<td class="medium"><a href="books.php">PHP Advanced</a></td>
+						<td class="medium">Lorem ipsum sit amet</td>
 						<td><a href="#">Edit</a></td>
 						<td><a href="#">Delete</a></td>
 					</tr>
 					<tr>
-						<td class="wide"><a href="years.php">Game Development</a></td>
-						<td>3</td>
-						<td>2</td>
+						<td>CM104</td>
+						<td class="medium"><a href="books.php">PHP Intermediate</a></td>
+						<td class="medium">Lorem ipsum sit amet</td>
 						<td><a href="#">Edit</a></td>
 						<td><a href="#">Delete</a></td>
 					</tr>
@@ -71,7 +71,8 @@
 
 			</table>
 
-			<?php include_once('inc/add-button.inc.php'); ?>
+			<?php include_once('inc/add_button.inc.php'); ?>
+			<?php include_once('inc/show_lonely_modules_button.inc.php'); ?>
 
 		</div>
 
