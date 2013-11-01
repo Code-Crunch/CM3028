@@ -83,7 +83,7 @@ a {
 	    text-decoration: none;
     }
 }
-fieldset {
+fieldset, form {
 	border: none medium;
 }
 input {
@@ -92,6 +92,20 @@ input {
 	padding: 0.616em 0.3em 0.616em 0.616em;
 	margin-bottom: 12px;
 	border: 1px solid #CCCCCC;
+	&[type=submit] {
+		background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+    	border: medium none;
+    	height: 1.2em;
+    	outline: medium none;
+    	padding: 0;
+    	text-align: left;
+	}
+}
+.loginError {
+	color: #FF0000;
+    position: absolute;
+    right: 0;
+    width: 240px;
 }
 .choices__select {
 	height: 3.8em;
