@@ -2,7 +2,17 @@
 	BEM methodology is behind all the html elements naming conventions
 	http://bem.info/method/
 -->
-
+<?php
+$error = '';
+if(isset($_POST['login'])) {
+	session_start();
+	$username = trim( $_POST['username'] );
+	$password = sha1 ($username.$_POST['password'] );
+	$userlist = 'encrypted.txt';
+	$redirect = 'menu.php';
+	require_once('inc/authenticate.inc.php');
+}
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
 <head>
@@ -12,19 +22,29 @@
 	<div id="textbooksApp-main">
 
     	<!-- keyword search -->
+    	
     	<fieldset class="keywordSearch">
    			<input class="keywordSearch__input"></input>
    			<a id="search" class="keywordSearch__search btn">Search &gt;</a>
    		</fieldset>
     	<!-- /keyword search -->
 
+    	<?php
+    		if($error!='') {
+				echo '<p class="loginError">' . $error . '</p>';
+			}
+		?>
     	<!-- sign in -->
+    	<form id="signIn" method="post" action="">
     	<fieldset class="auth">
-   			<input class="auth__login"></input>
-   			<input class="auth__password"></input>
-   		<a id="signIn" class="auth__signin btn">Login &gt;</a>
-   		<a id="register" class="auth__register">Not a member? <span class="btn-small">Register &gt;</span></a>
+   			<input class="auth__login" name="username" placeholder="Enter your username"></input>
+   			<input class="auth__password" name="password" type="password" placeholder="Enter your password"></input>
+   			<input type="submit" name="login" class="auth__signin btn" value="Login &gt;">
+
+   			<!--a id="signIn" class="auth__signin btn">Login &gt;</a-->
+   			<a id="register" class="auth__register">Not a member? <span class="btn-small">Register &gt;</span></a>
    		</fieldset>
+   		</form>
     	<!-- /sign in -->
 
     	<div class="innerWrapper">
@@ -86,7 +106,6 @@
 		<!-- /submit the form -->
 		</fieldset>
 		<!-- /choices -->
-
 
 	</div>
 

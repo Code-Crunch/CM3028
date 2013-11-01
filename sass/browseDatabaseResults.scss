@@ -1,6 +1,7 @@
 /* @author Marina Shchukina, 1014481 */
 
-#textbooksApp-courses, #textbooksApp-years, #textbooksApp-modules, #textbooksApp-books {
+#textbooksApp-courses, #textbooksApp-years, 
+#textbooksApp-modules, #textbooksApp-books {
 	@include wrapper;
 	.innerWrapper {
 		@include innerWrapper;

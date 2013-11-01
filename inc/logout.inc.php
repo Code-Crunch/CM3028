@@ -3,7 +3,7 @@ session_start();
 ob_start();
 
 if(!isset($_SESSION['authenticated'])) {
-	header('Location: login.php');
+	header('Location: index.php');
 	exit;
 }
 if(isset($_POST['logout'])) {
@@ -15,7 +15,7 @@ if(isset($_POST['logout'])) {
 	}
 	//destroy the session
 	session_destroy();
-	header('Location: login.php');
+	header('Location: index.php');
 	exit;
 }
 ?>
