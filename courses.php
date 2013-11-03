@@ -2,7 +2,9 @@
 	BEM methodology is behind all the html elements naming conventions
 	http://bem.info/method/
 -->
-
+<?php
+	session_start();
+?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
 <head>
@@ -71,7 +73,12 @@
 
 			</table>
 
-			<?php include_once('inc/add-button.inc.php'); ?>
+			<?php
+				if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) { 
+					include_once('inc/add_button.inc.php');
+				}
+
+			?>
 
 		</div>
 

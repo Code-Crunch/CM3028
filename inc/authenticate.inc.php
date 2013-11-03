@@ -12,15 +12,15 @@ if(!file_exists($userlist) || !is_readable($userlist)) {
 
 		// check for a matching record
 		if ($tmp[0] == $username && rtrim( $tmp[1] ) == $password ) {
-			$_SESSION['authenticated'] = 'Code Crunch';
+			$_SESSION['currentUser'] = $username;
+			
 			session_regenerate_id();
 			break;
 		}
 	}
 	
-	if( isset( $_SESSION['authenticated']) ) {
+	if( isset( $_SESSION['currentUser'])) {
 		header('Location: menu.php');
-		exit;
 	} else {
 		$error = 'Username of password are incorrect';
 	}

@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(!isset($_SESSION['authenticated'])) {
+if(!isset($_SESSION['currentUser'])) {
 	header('Location: index.php');
 	exit;
 }

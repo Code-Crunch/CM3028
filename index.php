@@ -3,26 +3,34 @@
 	http://bem.info/method/
 -->
 <?php
-$error = '';
-if(isset($_POST['login'])) {
 	session_start();
-	$username = trim( $_POST['username'] );
-	$password = sha1 ($username.$_POST['password'] );
-	$userlist = 'encrypted.txt';
-	$redirect = 'menu.php';
-	require_once('inc/authenticate.inc.php');
-}
 ?>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
 <head>
 <link rel="stylesheet" type="text/css" href="css/main.css" />
 </head>
 <body>
+	<?php
+		$adminUsername = 'admin';
+		$adminPassword = '123';
+		$userlist = 'encrypted.txt';
+		$error = array();
+		$loginRequested = isset( $_POST['login']); //boolean
+		$logoutRequested = isset( $_GET['logout'] ); //boolean
+
+		if($logoutRequested) {
+			require_once('inc/logout.inc.php');
+		}
+
+		if( $loginRequested ) {	
+			require_once('inc/login.inc.php');	
+		}
+	?>
 	<div id="textbooksApp-main">
 
     	<!-- keyword search -->
-    	
     	<fieldset class="keywordSearch">
    			<input class="keywordSearch__input"></input>
    			<a id="search" class="keywordSearch__search btn">Search &gt;</a>
@@ -30,22 +38,23 @@ if(isset($_POST['login'])) {
     	<!-- /keyword search -->
 
     	<?php
-    		if($error!='') {
-				echo '<p class="loginError">' . $error . '</p>';
-			}
+     	if( !empty($error) ) {
+		 	echo '<ul class="loginError">';
+		 	foreach ($error as $key => $value) {
+		 		echo '<li>' . $value . '</li>';
+		 	}
+		 	echo '</ul>';
+		}
 		?>
-    	<!-- sign in -->
-    	<form id="signIn" method="post" action="">
-    	<fieldset class="auth">
-   			<input class="auth__login" name="username" placeholder="Enter your username"></input>
-   			<input class="auth__password" name="password" type="password" placeholder="Enter your password"></input>
-   			<input type="submit" name="login" class="auth__signin btn" value="Login &gt;">
 
-   			<!--a id="signIn" class="auth__signin btn">Login &gt;</a-->
-   			<a id="register" class="auth__register">Not a member? <span class="btn-small">Register &gt;</span></a>
-   		</fieldset>
-   		</form>
-    	<!-- /sign in -->
+    	<?php
+		if( !isset( $_SESSION['currentUser']) ) {
+			include_once('inc/login_form.inc.php');
+			
+		} else {
+			include_once('inc/logout_form.inc.php');
+		}
+    	?>
 
     	<div class="innerWrapper">
 
