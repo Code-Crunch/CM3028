@@ -14,11 +14,11 @@
 <body>
 	<?php
 		$loginDetails = 'login_details_encrypted.txt';
-		$adminUsername = 'admin';
-		$adminPassword = '123';
 		$error = array();
 		$loginRequested = isset( $_POST['login']); //boolean
 		$logoutRequested = isset( $_GET['logout'] ); //boolean
+
+		require_once('inc/get_login_details.inc.php');
 
 		if($logoutRequested) {
 			require_once('inc/logout.inc.php');
@@ -63,16 +63,31 @@
     	<h1 class="title">School of Computing Science &amp; Digital Media</h1>
     	<h2 class="subtitle">Current session: 2013/14</h2>
 
-    	<p class="description">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
+    	<p class="description">This paragraph should contain some information about how to use the application <br /> <br /> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
 
     	<!-- choices -->
+    	<script type="text/javascript">
+    		//@author: MS, 1014481
+    		function enableDropdown() {
+ 				var coursesDD = document.getElementById("courses"),
+ 					yearsDD = document.getElementById("years"),
+ 					selectedValue = coursesDD.options[coursesDD.selectedIndex].value;
+
+ 				/* when a value other than the default one is chosen from the courses dropdown, 
+ 				   enable years dropdown */
+
+    			if (selectedValue != "select-course") {
+        			yearsDD.disabled = false;
+   				}
+			}
+    	</script>
     	<fieldset class="choices">
     		<div class="choices-option">
 			<label class="choices__course">Course</label>
 			<div class="choices__select">
 				<div class="select">
-					<select class="choices__course">
-						<option value="">Select...</option>
+					<select id="courses" class="choices__course" onclick="enableDropdown();">
+						<option value="select-course">Select...</option>
 						<option value="CS">Computer Science, BSc.</option>
 						<option value="IM">Internet and Multimedia, BSc.</option>
 					</select>
@@ -85,7 +100,7 @@
 				<label class="choices__year">Course year</label>
 				<div class="choices__select">
 					<div class="select">
-						<select class="choices__year">
+						<select id="years" class="choices__year" disabled>
 							<option value="">Select...</option>
 							<option value="1">1</option>
 							<option value="2">2</option>
