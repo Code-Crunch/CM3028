@@ -46,13 +46,16 @@
 	.logout__btn {
 		float: right;
 	}
+	
 	/* Inner wrapper */
 	.innerWrapper {
 		@include innerWrapper;
 	}
 	.title {
-		width: 550px;
-		margin: 0 auto 16px;
+	    font-family: Helvetica;
+	    font-size: 1.9em;
+	    margin: 0 auto 16px;
+	    width: 541px;
 	}
 	.subtitle {
 		width: 300px;

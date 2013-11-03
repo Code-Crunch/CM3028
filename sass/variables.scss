@@ -47,7 +47,6 @@ a {
 
 }
 .btn-extras {
-
     color: #EEE;
     background-clip: border-box;
     background-position: left bottom, right top, 0 0px, 0 0;
@@ -74,7 +73,11 @@ a {
 
     &:hover {
     	background-color: #B6BBC0;
-    background-image: url("#{$imgpath}button_bg.png"), url("#{$imgpath}button_bg.png"), radial-gradient(circle at center bottom , #CACDD0 0px, rgba(202, 205, 208, 0) 100px), linear-gradient(#D1D3D6, #9FA5A9);
+    	background-image: url("#{$imgpath}button_bg.png"), url("#{$imgpath}button_bg.png"), radial-gradient(circle at center bottom , #CACDD0 0px, rgba(202, 205, 208, 0) 100px), linear-gradient(#D1D3D6, #9FA5A9);
+    	background-position: left top, right bottom, 0 0px, 0 0;
+    }
+	&:active {
+    	bottom: -1px;
     }
     &:visited {
 	    border-bottom: 1px dotted #97CAE6;

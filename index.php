@@ -13,9 +13,9 @@
 </head>
 <body>
 	<?php
+		$loginDetails = 'login_details_encrypted.txt';
 		$adminUsername = 'admin';
 		$adminPassword = '123';
-		$userlist = 'encrypted.txt';
 		$error = array();
 		$loginRequested = isset( $_POST['login']); //boolean
 		$logoutRequested = isset( $_GET['logout'] ); //boolean
@@ -31,10 +31,12 @@
 	<div id="textbooksApp-main">
 
     	<!-- keyword search -->
-    	<fieldset class="keywordSearch">
-   			<input class="keywordSearch__input"></input>
-   			<a id="search" class="keywordSearch__search btn">Search &gt;</a>
-   		</fieldset>
+    	<form id="search" method="post" action="">
+	    	<fieldset class="keywordSearch">
+	   			<input class="keywordSearch__input"></input>
+	   			<input type="submit" name="search" class="keywordSearch__search btn" value="Search &gt;">
+	   		</fieldset>
+   		</form>
     	<!-- /keyword search -->
 
     	<?php

@@ -18,7 +18,7 @@
 
 		<div class="innerWrapper">
 
-			<h1 class="tableTitle">Modules</h1>
+			<h1 class="tableTitle">Books</h1>
 
 			<!-- Table markup-->
 
