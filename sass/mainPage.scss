@@ -7,17 +7,19 @@
 	.keywordSearch {	
 		width: 145px;
 		position: absolute;
-		top: 30px;
+		top: 55px;
 		left: 8px;
+		-webkit-appearance: none;
 
 	}
 
-	/* Authorized access */
+	/* Login, authorized access */
 	.auth {
-		width: 147px;
+		width: 160px;
 		position: absolute;
-		top: 30px;
+		top: 55px;
 		right: 8px;
+		-webkit-appearance: none;
 	}
 	.auth__signin {
 		width: 100%;
@@ -30,12 +32,26 @@
 		margin: 16px auto;
 	}
 
+	/* Logout */
+	.logout {
+		position: absolute;
+		right: 16px;
+		top: 42px;
+	}
+	.logout__title {
+		font-size: 1.2em;
+		font-weight: normal;
+		text-align: right;
+	}
+	.logout__btn {
+		float: right;
+	}
 	/* Inner wrapper */
 	.innerWrapper {
 		@include innerWrapper;
 	}
 	.title {
-		width: 667px;
+		width: 550px;
 		margin: 0 auto 16px;
 	}
 	.subtitle {

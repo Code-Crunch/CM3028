@@ -1,4 +1,4 @@
-$font-stack: 'Arial, Helvetica';
+$font-stack: 'Helvetica, Arial';
 $imgpath :'../img/';
 
 /* Mixins */
@@ -103,9 +103,9 @@ input {
 }
 .loginError {
 	color: #FF0000;
-    position: absolute;
-    right: 0;
-    width: 240px;
+	position: absolute;
+	right: 8px;
+	width: 211px;
 }
 .choices__select {
 	height: 3.8em;
