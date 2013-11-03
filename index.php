@@ -14,11 +14,11 @@
 <body>
 	<?php
 		$loginDetails = 'login_details_encrypted.txt';
-		$adminUsername = 'admin';
-		$adminPassword = '123';
 		$error = array();
 		$loginRequested = isset( $_POST['login']); //boolean
 		$logoutRequested = isset( $_GET['logout'] ); //boolean
+
+		require_once('inc/get_login_details.inc.php');
 
 		if($logoutRequested) {
 			require_once('inc/logout.inc.php');

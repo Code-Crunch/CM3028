@@ -3,11 +3,11 @@
  	 * @author Marina Shchukina, 1014481@rgu.ac.uk
  	 */
 	$username = trim( $_POST['username'] );
-	$password = trim( $_POST['password']);//sha1 ($username.$_POST['password'] );
+	$password = sha1 ( $username.$_POST['password'] );
 	
 	if($username == $adminUsername && $password == $adminPassword ) {
 		$_SESSION['currentUser'] = $username;
-		if($username=='admin') {
+		if($username=='administrator') {
 			$_SESSION['currentAccessLevel'] = 1; //for administrators	
 		}
 	} else {
