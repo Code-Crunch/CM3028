@@ -61,7 +61,7 @@
 				<h1 class="title">School of Computing Science &amp; Digital Media</h1>
 				<h2 class="subtitle">Current session: 2013/14</h2>
 			
-				<p class="description">This paragraph should contain some information about how to use the application <br /> <br /> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
+				<p class="description">Welcome to CodeCrunch's book searching web application!<br/>To start searching for a book you can either select a course, year or module from the drop down menus and then click search, you will then be shown all the books either in that course, year or module. For a more specific search try selecting an option from more than one of the drop down menus to give all the books that match your input criteria. Alternatively you can do an advance search where you can enter full or partial keywords and that will show you all books that have that matching keyword.</p>
 		
 				<!-- choices -->
 				<?php
