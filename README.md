@@ -1,16 +1,15 @@
-#Code crunchers
+New Functionality
 
-CM3028
+All the pages redirect to reasonable pages EXCEPT Book and Module edits and Adds, these point to index. 
 
+All redirect code is relative and automated.
 
-Web application development coursework
+All forms prevent MySQL and HTML injections.
 
-#App structure
+All the data entry forms are verified!
+ 
 
- */inc/ folder is for php includes
- */lib/ folder is for custom php classes 
-
-#Login for testing
-
-username: administrator
-password: 12356
+Further Notes
+The MySQL DB export attached is my current DB.
+I have tested these to a certain extent, but nothing too serious. If you find ANY bugs, let me know! 
+ 

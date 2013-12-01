@@ -1,5 +1,6 @@
 <?php
 	session_start();
+	require_once "inc/database.inc.php";
 ?>
 <!-- Marina Shchukina, 1014481 
 	BEM methodology is behind all the html elements naming conventions
@@ -14,19 +15,28 @@
 <body>
 	<div id="textbooksApp-modules">
 		<fieldset class="back">
-			<a href="years.php" class="btn">&lt; Back</a>
+			<!-- Start of Sam Cussons code -->
+			<?php
+			ini_set('error_reporting', E_ALL|E_STRICT);
+			ini_set('display_errors', 1);
+				if ($_GET['courses'] == "orphans" && $_GET['years'] == "orphans" && $_GET['modules'] == "orphans") {
+					$orphs = true;
+				}
+				if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1 && !$orphs && $_GET['pOrph'] != "yes") {
+					echo "<a href=\"modules.php?courses=".$_GET['courses']."&years=select-year\" class=\"btn\">&lt; Back</a>";
+				} else {
+					echo "<a href=\"index.php\" class=\"btn\">&lt; Home</a>";
+				}
+			?>
+			<!-- End of Sam Cussons code -->
 		</fieldset>
-
 		<div class="innerWrapper">
-
 			<h1 class="tableTitle">Books</h1>
 
 			<!-- Table markup-->
-
 			<table class="databaseResults">
 
 			<!-- Table header -->
-	
 			<thead>
 				<tr>
 					<th scope="col">Book Title</th>
@@ -40,33 +50,92 @@
 				</tr>
 			</thead>
 	
-	
 			<!-- Table body -->
-			
 				<tbody>
-					<tr>
-						<td>PHP Cookbook</td>
-						<td>Joe Doe</td>
-						<td>Jane Doe</td>
-						<td>aPress</td>
-						<td>2008</td>
-						<td>PHP, beginners, MySQL</td>
-						<td><a href="#">Edit</a></td>
-						<td><a href="#">Delete</a></td>
-					</tr>
+					<!-- Start of Sam Cussons code -->
+					<?php
+						try {
+							$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
+							// try connecting to the database
+							$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
+							// turn on PDO exception handling 
+							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+						} catch (PDOException $e) {
+							// enter catch block in event of error in preceding try block
+							echo "Connection failed: ".$e->getMessage();
+						}
+						try {
+							$courses = htmlentities(mysql_real_escape_string($_GET['courses']));
+							$modules = htmlentities(mysql_real_escape_string($_GET['modules']));
+							$years = htmlentities(mysql_real_escape_string($_GET['years']));
+							
+							
+							$sql="SELECT books.bid, books.title, books.author1, books.author2, books.publisher, books.year, books.keyword
+								FROM books
+								LEFT JOIN moduleBooks ON books.bid = moduleBooks.bid
+								LEFT JOIN courseModules ON moduleBooks.mid = courseModules.mid ";
+							if ($courses == "select-course" && $modules == "select-module") {
+								// Nothing set so BOOKS.PHP
+								echo "<tr><td>Nothing Selected</td></tr>";
+							} else if ($courses != "select-course" && $years != "select-year" && $modules != "select-module"){
+								// Course, Module and Year SET so BOOKS.PHP
+								$sql = $sql. "WHERE courseModules.cid =  \"".$courses."\" AND moduleBooks.mid = \"".$modules."\" AND courseModules.year = \"".$years."\"" ;
+							} else if ($courses != "select-course" && $years != "select-year" && $modules == "select-module"){
+								// Course and Year Set MODULES.PHP
+								$sql = $sql. "WHERE courseModules.cid =  \"".$courses."\" AND courseModules.year = \"".$years."\"" ;
+							} else if ($courses != "select-course" && $years == "select-year" && $modules == "select-module"){
+								// Course Set YEARS.PHP
+								$sql = $sql. "WHERE courseModules.cid =  \"".$courses."\"" ;
+							} else if ($courses == "select-course" && $years == "select-year" && $modules != "select-module"){
+								// Module Set BOOKS.PHP
+								$sql = $sql. "WHERE moduleBooks.mid = \"".$modules."\"" ;
+							} else if ($courses != "select-course" && $modules != "select-module"){
+								// Module and Courses Set BOOKS.PHP
+								$sql = $sql. "WHERE courseModules.cid =  \"".$courses."\" AND moduleBooks.mid = \"".$modules."\"" ;
+							}
+							$sql = $sql." ORDER BY books.title";
+							if ($courses == "orphans" && $years == "orphans" && $modules == "orphans" && isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {
+								$sql="SELECT books.bid, books.title, books.author1, books.author2, books.publisher, books.year, books.keyword
+									FROM books
+									LEFT OUTER JOIN moduleBooks ON moduleBooks.bid = books.bid
+									WHERE moduleBooks.bid IS NULL ";
+							}
+							$results=$conn->query($sql);
+							if ($results->rowcount()==0 || $courses == "select-course" && $modules == "select-module"){
+							} else {
+								//generate table of results
+								foreach ($results as $row){
+									echo "<tr>";
+									echo "<td>".$row['title']."</td>";
+									echo "<td>".$row['author1']."</td>";
+									echo "<td>".$row['author2']."</td>";
+									echo "<td>".$row['publisher']."</td>";
+									echo "<td>".$row['year']."</td>";
+									echo "<td>".$row['keyword']."</td>";
+									if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {
+										echo "<td><a href=\"inc/bookEdit.inc.php?books=".$row['bid']."\">Edit</a></td>";
+										if ($courses == "orphans" && $years == "orphans" && $modules == "orphans") {
+											echo "<td><a href=\"inc/delete.inc.php?books=".$row['bid']."\">Delete</a></td>";
+										}
+									}
+									echo "</tr>";
+								}
+							}
+						} catch ( PDOException $e ) {
+							echo "Query failed: " . $e->getMessage();
+						}
+						$conn = null;
+					?>
+					<!-- End of Sam Cussons code -->
 				</tbody>
-
 			</table>
-
 			<?php 
-			if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) { 
-				include_once('inc/add_button.inc.php');
-				include_once('inc/show_lonely_books_button.inc.php');
-			} 
+				if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) { 
+					echo "<a class=\"btn-extras\" href=\"inc/bookAdd.inc.php\">Add</a>";
+					include_once('inc/show_lonely_books_button.inc.php');
+				}
 			?>
-
 		</div>
-
 		<?php include_once('inc/footer.inc.php'); ?>
 	</div>
 </body>

@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	ob_start();
+	require_once "inc/database.inc.php";
 ?>
 <!-- Marina Shchukina, 1014481 
 	BEM methodology is behind all the html elements naming conventions
@@ -8,136 +10,214 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
-<head>
-<link rel="stylesheet" type="text/css" href="css/main.css" />
-</head>
-<body>
-	<?php
-		$loginDetails = 'login_details_encrypted.txt';
-		$error = array();
-		$loginRequested = isset( $_POST['login']); //boolean
-		$logoutRequested = isset( $_GET['logout'] ); //boolean
-
-		require_once('inc/get_login_details.inc.php');
-
-		if($logoutRequested) {
-			require_once('inc/logout.inc.php');
-		}
-
-		if( $loginRequested ) {	
-			require_once('inc/login.inc.php');	
-		}
-	?>
-	<div id="textbooksApp-main">
-
-    	<!-- keyword search -->
-    	<form id="search" method="post" action="">
-	    	<fieldset class="keywordSearch">
-	   			<input class="keywordSearch__input"></input>
-	   			<input type="submit" name="search" class="keywordSearch__search btn" value="Search &gt;">
-	   		</fieldset>
-   		</form>
-    	<!-- /keyword search -->
-
-    	<?php
-     	if( !empty($error) ) {
-		 	echo '<ul class="loginError">';
-		 	foreach ($error as $key => $value) {
-		 		echo '<li>' . $value . '</li>';
-		 	}
-		 	echo '</ul>';
-		}
-		?>
-
-    	<?php
-		if( !isset( $_SESSION['currentUser']) ) {
-			include_once('inc/login_form.inc.php');
-			
-		} else {
-			include_once('inc/logout_form.inc.php');
-		}
-    	?>
-
-    	<div class="innerWrapper">
-
-    	<h1 class="title">School of Computing Science &amp; Digital Media</h1>
-    	<h2 class="subtitle">Current session: 2013/14</h2>
-
-    	<p class="description">This paragraph should contain some information about how to use the application <br /> <br /> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
-
-    	<!-- choices -->
-    	<script type="text/javascript">
-    		//@author: MS, 1014481
-    		function enableDropdown() {
- 				var coursesDD = document.getElementById("courses"),
- 					yearsDD = document.getElementById("years"),
- 					selectedValue = coursesDD.options[coursesDD.selectedIndex].value;
-
- 				/* when a value other than the default one is chosen from the courses dropdown, 
- 				   enable years dropdown */
-
-    			if (selectedValue != "select-course") {
-        			yearsDD.disabled = false;
-   				}
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+	<body>
+		<?php
+			$loginDetails = 'login_details_encrypted.txt';
+			$error = array();
+			$loginRequested = isset( $_POST['login']); //boolean
+			$logoutRequested = isset( $_GET['logout'] ); //boolean
+	
+			require_once('inc/get_login_details.inc.php');
+	
+			if($logoutRequested) {
+				require_once('inc/logout.inc.php');
 			}
-    	</script>
-    	<fieldset class="choices">
-    		<div class="choices-option">
-			<label class="choices__course">Course</label>
-			<div class="choices__select">
-				<div class="select">
-					<select id="courses" class="choices__course" onclick="enableDropdown();">
-						<option value="select-course">Select...</option>
-						<option value="CS">Computer Science, BSc.</option>
-						<option value="IM">Internet and Multimedia, BSc.</option>
-					</select>
-				</div>
-			</div>
-			</div>
-			<!-- /course -->
+	
+			if( $loginRequested ) {	
+				require_once('inc/login.inc.php');	
+			}
+		?>
+		<div id="textbooksApp-main">
+	
+			<!-- keyword search -->
+			<form id="search" method="get" action="">
+				<fieldset class="keywordSearch">
+					<input class="keywordSearch__input"></input>
+					<input type="submit" name="search" class="keywordSearch__search btn" value="Search &gt;">
+				</fieldset>
+			</form>
+			<!-- /keyword search -->
+		
+			<?php
+				if( !empty($error) ) {
+					echo '<ul class="loginError">';
+					foreach ($error as $key => $value) {
+						echo '<li>' . $value . '</li>';
+					}
+					echo '</ul>';
+				}
 
-			<div class="choices-option">
-				<label class="choices__year">Course year</label>
-				<div class="choices__select">
-					<div class="select">
-						<select id="years" class="choices__year" disabled>
-							<option value="">Select...</option>
-							<option value="1">1</option>
-							<option value="2">2</option>
-							<option value="3">3</option>
-							<option value="4">4</option>
-						</select>
+				if( !isset( $_SESSION['currentUser']) ) {
+					include_once('inc/login_form.inc.php');
+				} else {
+					include_once('inc/logout_form.inc.php');
+				}
+			?>
+		
+			<div class="innerWrapper">
+				<h1 class="title">School of Computing Science &amp; Digital Media</h1>
+				<h2 class="subtitle">Current session: 2013/14</h2>
+			
+				<p class="description">This paragraph should contain some information about how to use the application <br /> <br /> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
+		
+				<!-- choices -->
+				<?php
+					$searchSubmitted = isset( $_GET['browseDatabase']); //boolean
+				
+					if($searchSubmitted) {
+				// START of Sam Cussons code
+						if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) { 
+							if ($_GET['courses'] == "select-course" && $_GET['modules'] == "select-module") {
+								// Nothing set so COURSES.PHP
+								header('Location: courses.php');
+								exit;
+							} else if ($_GET['courses'] != "select-course" && $_GET['years'] != "select-year" && $_GET['modules'] != "select-module"){
+								// Course, Module and Year SET so BOOKS.PHP
+								header("Location: books.php?courses=".$_GET['courses']."&years=".$_GET['years']."&modules=".$_GET['modules']);
+								exit;
+							} else if ($_GET['courses'] != "select-course" && $_GET['years'] != "select-year" && $_GET['modules'] == "select-module"){
+								// Course and Year Set MODULES.PHP
+								header("Location: modules.php?courses=".$_GET['courses']."&years=".$_GET['years']);
+								exit;
+							} else if ($_GET['courses'] != "select-course" && $_GET['years'] == "select-year" && $_GET['modules'] == "select-module"){
+								// Course Set YEARS.PHP
+								header("Location: years.php?courses=".$_GET['courses']);
+								exit;
+							} else if ($_GET['courses'] == "select-course" && $_GET['years'] == "select-year" && $_GET['modules'] != "select-module"){
+								// Module Set BOOKS.PHP
+								header("Location: books.php?courses=".$_GET['courses']."&years=".$_GET['years']."&modules=".$_GET['modules']);
+								exit;
+							} else if ($_GET['courses'] != "select-course" && $_GET['modules'] != "select-module"){
+								// Module Set BOOKS.PHP
+								header("Location: books.php?courses=".$_GET['courses']."&years=".$_GET['years']."&modules=".$_GET['modules']);
+								exit;
+							}
+						} else {
+							header('Location: books.php');
+							exit;
+						}
+					}
+				?>
+				<?php
+					if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {
+						echo "<form id=\"choices\" method=\"get\" action=\"\">";
+					} else {
+						echo "<form id=\"choices\" method=\"get\" action=\"books.php\">";
+					}
+				?>
+				<!-- End of Sam Cussons code -->
+				<fieldset class="choices">
+					<div class="choices-option">
+						<label class="choices__course">Course</label>
+						<div class="choices__select">
+							<div class="select">
+								<select id="courses" name="courses" class="choices__course">
+									<option value="select-course">Select...</option>
+									<!-- Start of Sam Cussons code -->
+									<?php
+										try {
+											$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
+											// try connecting to the database
+											$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
+											// turn on PDO exception handling 
+											$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+										} catch (PDOException $e) {
+											// enter catch block in event of error in preceding try block
+											echo "Connection failed: ".$e->getMessage();
+										}
+										try {
+											$sql="SELECT * FROM courses";
+											$results=$conn->query($sql);
+											if ($results->rowcount()==0){
+												echo "No results <br/>";
+											} else {
+												//generate table of results
+												foreach ($results as $row){
+													echo "<option value=\"".$row['CID']."\">".$row['title']."</option>";
+												}
+											}
+										} catch ( PDOException $e ) {
+											echo "Query failed: " . $e->getMessage();
+										}
+										$conn = null;
+									?>
+									<!-- End of Sam Cussons code -->
+								</select>
+							</div>
+						</div>
 					</div>
-				</div>
-			</div>
-			<!-- /year -->
-
-			<div class="choices-option">
-				<label class="choices__module">Module</label>
-				<div class="choices__select">
-					<div class="select">	
-						<select class="choices__module">
-							<option value="">Select...</option>
-							<option value="cm101">CM101</option>
-							<option value="cm102">CM102</option>
-							<option value="cm103">CM103</option>
-							<option value="cm104">CM104</option>
-						</select>
+					<!-- /course -->
+			
+					<div class="choices-option">
+						<label class="choices__year">Course year</label>
+						<div class="choices__select">
+							<div class="select">
+								<select class="choices__year" name="years" id="years" >
+									<option value="select-year">Select...</option>
+									<option value="1">1</option>
+									<option value="2">2</option>
+									<option value="3">3</option>
+									<option value="4">4</option>
+								</select>
+							</div>
+						</div>
 					</div>
-				</div>
+					<!-- /year -->
+					<div class="choices-option">
+						<label class="choices__module">Module</label>
+						<div class="choices__select">
+							<div class="select">	
+								<select class="choices__module" name="modules" id="modules">
+									<option value="select-module">Select...</option>
+									<!-- Start of Sam Cussons code -->
+									<?php
+										try {
+											$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
+											// try connecting to the database
+											$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
+											// turn on PDO exception handling 
+											$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+										} catch (PDOException $e) {
+											// enter catch block in event of error in preceding try block
+											echo "Connection failed: ".$e->getMessage();
+										}
+										try {
+											$sql="SELECT * FROM modules";
+											$results=$conn->query($sql);
+											if ($results->rowcount()==0){
+												echo "No results <br/>";
+											} else {
+												//generate table of results
+												foreach ($results as $row){
+												    echo "<option value=\"".$row['MID']."\">".$row['title']."</option>";
+												}
+											}
+										} catch ( PDOException $e ) {
+											echo "Query failed: " . $e->getMessage();
+										}
+										$conn = null;
+									?>
+									<!-- End of Sam Cussons code -->
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- /module -->
+					
+					<input type="submit" name="browseDatabase" class="choices__browse btn" value="">
+			
+					<!-- /submit the form -->
+					</fieldset>
+				</form>
+				<!-- /choices -->
+		
 			</div>
-			<!-- /module -->
-
-		<a href="courses.php" id="browseDatabase" class="choices__browse btn"></a>
-		<!-- /submit the form -->
-		</fieldset>
-		<!-- /choices -->
-
-	</div>
-
-	<?php include_once('inc/footer.inc.php'); ?>
-
-   </div>
-
-</body>
+		
+			<?php include_once('inc/footer.inc.php'); ?>
+		
+		</div>
+	</body>
 </html>

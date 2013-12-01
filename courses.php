@@ -1,5 +1,10 @@
 <?php
 	session_start();
+	require_once "inc/database.inc.php";
+	if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {} else {
+		header("Location:".dirname($_SERVER['PHP_SELF'])."/index.php");
+		exit;
+	}
 ?>
 <!-- Marina Shchukina, 1014481 
 	BEM methodology is behind all the html elements naming conventions
@@ -8,82 +13,79 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML+RDFa 1.0//EN" "http://www.w3.org/MarkUp/DTD/xhtml-rdfa-1.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
-<head>
-<link rel="stylesheet" type="text/css" href="css/main.css" />
-</head>
-<body>
-	<div id="textbooksApp-courses">
-		<fieldset class="back">
-			<a href="index.php" class="btn">&lt; Back</a>
-		</fieldset>
-
-		<div class="innerWrapper">
-
-			<h1 class="tableTitle">Courses</h1>
-
-			<!-- Table markup-->
-
-			<table class="databaseResults">
-
-			<!-- Table header -->
+	<head>
+		<link rel="stylesheet" type="text/css" href="css/main.css" />
+	</head>
+	<body>
+		<div id="textbooksApp-courses">
+			<fieldset class="back">
+				<a href="index.php" class="btn">&lt; Back</a>
+			</fieldset>
 	
-			<thead>
-				<tr>
-					<th scope="col" class="wide" >Course title</th>
-					<th scope="col">Year of entry</th>
-					<th scope="col">Course duration</th>
-					<th scope="col"></th>
-					<th scope="col"></th>
-					
-				</tr>
-			</thead>
+			<div class="innerWrapper">
+				<h1 class="tableTitle">Courses</h1>
 	
+				<!-- Table markup-->
+				<table class="databaseResults">
 	
-			<!-- Table body -->
+					<!-- Table header -->
+					<thead>
+						<tr>
+							<th scope="col" class="wide" >Course title</th>
+							<th scope="col">Year of entry</th>
+							<th scope="col">Course duration</th>
+							<th scope="col"></th>
+							<th scope="col"></th>
+						</tr>
+					</thead>
 			
-				<tbody>
-					<tr>
-						<td class="wide"><a href="years.php">Computer Science</a></td>
-						<td>1</td>
-						<td>4</td>
-						<td><a href="#">Edit</a></td>
-						<td><a href="#">Delete</a></td>
-					</tr>
-					<tr>
-						<td class="wide"><a href="years.php">Internet and Web Development</a></td>
-						<td>3</td>
-						<td>2</td>
-						<td><a href="#">Edit</a></td>
-						<td><a href="#">Delete</a></td>
-					</tr>
-					<tr>
-						<td class="wide"><a href="years.php">Project Management in Computing</a></td>
-						<td>1</td>
-						<td>4</td>
-						<td><a href="#">Edit</a></td>
-						<td><a href="#">Delete</a></td>
-					</tr>
-					<tr>
-						<td class="wide"><a href="years.php">Game Development</a></td>
-						<td>3</td>
-						<td>2</td>
-						<td><a href="#">Edit</a></td>
-						<td><a href="#">Delete</a></td>
-					</tr>
-				</tbody>
-
-			</table>
-
-			<?php
-				if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) { 
-					include_once('inc/add_button.inc.php');
-				}
-
-			?>
-
+					<!-- Table body -->
+					<tbody>
+						<!-- Start of Sam Cussons code -->
+						<?php
+							try {
+								$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
+								// try connecting to the database
+								$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
+								// turn on PDO exception handling 
+								$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+							} catch (PDOException $e) {
+								// enter catch block in event of error in preceding try block
+								echo "Connection failed: ".$e->getMessage();
+							}
+							try {
+								$sql="SELECT courses.cid, courses.title, courses.startYear, courses.duration
+									FROM courses
+									ORDER BY courses.title";
+								$results=$conn->query($sql);
+								if ($results->rowcount()==0){
+								} else {
+									//generate table of results
+									foreach ($results as $row){
+										echo "<tr>";
+										echo "<td><a href=\"years.php?courses=".$row['cid']. "\">".$row['title']."</a></td>";
+										echo "<td>".$row['startYear']."</td>";
+										echo "<td>".$row['duration']."</td>";
+										echo "<td><a href=\"inc/courseEdit.inc.php?courses=".$row['cid']."\">Edit</a></td>";
+										echo "<td><a href=\"inc/delete.inc.php?courses=".$row['cid']."\">Delete</a></td>";
+										echo "</tr>";
+									}
+								}
+							} catch ( PDOException $e ) {
+								echo "Query failed: " . $e->getMessage();
+							}
+							$conn = null;
+						?>
+						<!-- End of Sam Cussons code -->
+					</tbody>
+				</table>
+				<?php
+					if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) { 
+						echo "<a class=\"btn-extras\" href=\"inc/courseAdd.inc.php\">Add</a>";
+					}
+				?>
+			</div>
+			<?php include_once('inc/footer.inc.php'); ?>
 		</div>
-
-		<?php include_once('inc/footer.inc.php'); ?>
-	</div>
-</body>
+	</body>
 </html>
