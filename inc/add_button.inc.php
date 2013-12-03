@@ -1,1 +1,0 @@
-<a class="btn-extras" href="#">Add</a>
