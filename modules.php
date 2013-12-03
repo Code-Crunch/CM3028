@@ -21,6 +21,7 @@
 			<fieldset class="back">
 				<!-- Start of Sam Cussons code -->
 				<?php
+					$orphs=false; //MS
 					if ($_GET['courses'] == "orphans" && $_GET['years'] == "orphans") {
 						$orphs = true;
 					}

@@ -11,19 +11,19 @@
     <form id="edit" method="post" action="makeModuleAdd.inc.php">
         <fieldset class="edits">
             <?php
-                if ($_GET['modules'] == "") {
+
+            if (!isset($_GET['modules'])) { //MS
 		    echo "Module ID: <input name=\"moduleID\" placeholder=\"Module ID\"></input> <br>";
 		    echo "Title: <input name=\"title\" placeholder=\"Module Title\"></input> <br>";
 		    echo "Description: <input name=\"descr\" placeholder=\"Module Description\"></input> <br>";
-                            
-                    
-                    try {
-                        $sql="SELECT courses.cid
-                            FROM courses";
-                        $stmt = $conn->prepare($sql);
+                                                
+            try {
+                $sql="SELECT courses.cid
+                      FROM courses";
+                      $stmt = $conn->prepare($sql);
 			if ($stmt->execute(array())) {
 			    if ($stmt->rowCount() == 0) {
-				echo "No results <br/>";
+				    echo "No results <br/>";
 			    } else {
 				//generate table of results
 				echo "Attach To Course: <select name=\"addCourse\">";

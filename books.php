@@ -17,10 +17,12 @@
 		<fieldset class="back">
 			<!-- Start of Sam Cussons code -->
 			<?php
+				$orphs=false; //MS
+
 				if ($_GET['courses'] == "orphans" && $_GET['years'] == "orphans" && $_GET['modules'] == "orphans") {
-					$orphs = true;
+					$orphs=true;
 				}
-				if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1 && !$orphs && $_GET['pOrph'] != "yes") {
+				if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1 && !$orphs /*&& $_GET['pOrph']!="yes"*/) {
 					echo "<a href=\"modules.php?courses=".$_GET['courses']."&years=select-year\" class=\"btn\">&lt; Back</a>";
 				} else {
 					echo "<a href=\"index.php\" class=\"btn\">&lt; Home</a>";

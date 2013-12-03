@@ -11,7 +11,7 @@
     <form id="edit" method="post" action="makeBookAdd.inc.php">
         <fieldset class="edits">
             <?php
-                if ($_GET['books'] == "") {
+                if (!isset($_GET['books'])) { //MS
                     echo "Book ID: <input name=\"bookID\" placeholder=\"Book ID\"></input> <br>";
                     echo "Title: <input name=\"title\" placeholder=\"Book Title\"></input> <br>";
                     echo "First Author: <input name=\"author1\" placeholder=\"First Author\"></input> <br>";
