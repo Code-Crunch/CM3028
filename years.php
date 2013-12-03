@@ -40,32 +40,20 @@
 						<!-- Start of Sam Cussons code -->
 						<?php
 							try {
-								$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-								// try connecting to the database
-								$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-								// turn on PDO exception handling 
-								$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							} catch (PDOException $e) {
-								// enter catch block in event of error in preceding try block
-								echo "Connection failed: ".$e->getMessage();
-							}
-							try {
-								$courses = htmlentities(mysql_real_escape_string($_GET['courses']));
+								$courses = htmlentities($_GET['courses']);
 								$sql="SELECT *
 									FROM courses
 									WHERE courses.cid = \"". $courses . "\"
 									ORDER BY courses.title";
-								$results=$conn->query($sql);
-								if ($results->rowcount()==0){
-								} else {
-									//generate table of results
-									foreach ($results as $row){
-										echo "<tr><td><a href=\"modules.php?courses=".$courses."&years=select-year\">All</a></td></tr>";
+								$stmt = $conn->prepare($sql);
+                                                                if ($stmt->execute(array())) {
+									echo "<tr><td><a href=\"modules.php?courses=".$courses."&years=select-year\">All</a></td></tr>";
+									while ($row = $stmt->fetch()) {
 										for ($i=$row['startYear'] ; $i<=$row['duration']+$row['startYear']-1 ; $i++) {
 											echo "<tr><td><a href=\"modules.php?courses=".$courses."&years=".$i."\">".$i."</a></td></tr>";
 										}
 									}
-								}
+                                                                }
 							} catch ( PDOException $e ) {
 								echo "Query failed: " . $e->getMessage();
 							}

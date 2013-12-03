@@ -44,24 +44,13 @@
 						<!-- Start of Sam Cussons code -->
 						<?php
 							try {
-								$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-								// try connecting to the database
-								$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-								// turn on PDO exception handling 
-								$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							} catch (PDOException $e) {
-								// enter catch block in event of error in preceding try block
-								echo "Connection failed: ".$e->getMessage();
-							}
-							try {
 								$sql="SELECT courses.cid, courses.title, courses.startYear, courses.duration
 									FROM courses
 									ORDER BY courses.title";
-								$results=$conn->query($sql);
-								if ($results->rowcount()==0){
-								} else {
-									//generate table of results
-									foreach ($results as $row){
+								
+								$stmt = $conn->prepare($sql);
+                                                                if ($stmt->execute(array())) {
+									while ($row = $stmt->fetch()) {
 										echo "<tr>";
 										echo "<td><a href=\"years.php?courses=".$row['cid']. "\">".$row['title']."</a></td>";
 										echo "<td>".$row['startYear']."</td>";
@@ -70,7 +59,7 @@
 										echo "<td><a href=\"inc/delete.inc.php?courses=".$row['cid']."\">Delete</a></td>";
 										echo "</tr>";
 									}
-								}
+                                                                }
 							} catch ( PDOException $e ) {
 								echo "Query failed: " . $e->getMessage();
 							}

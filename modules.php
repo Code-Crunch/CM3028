@@ -56,18 +56,8 @@
 						<!-- Start of Sam Cussons code -->
 						<?php
 							try {
-								$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-								// try connecting to the database
-								$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-								// turn on PDO exception handling 
-								$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-							} catch (PDOException $e) {
-								// enter catch block in event of error in preceding try block
-								echo "Connection failed: ".$e->getMessage();
-							}
-							try {
-								$courses = htmlentities(mysql_real_escape_string($_GET['courses']));
-								$years = htmlentities(mysql_real_escape_string($_GET['years']));
+								$courses = htmlentities($_GET['courses']);
+								$years = htmlentities($_GET['years']);
 								
 								if ($years == "select-year") {
 									$sql="SELECT modules.mid, modules.title, modules.descr
@@ -90,15 +80,12 @@
 									;
 								}
 								
-								$results=$conn->query($sql);
-								if ($results->rowcount()==0){
-									echo "<tr><td> No Results </td></tr>";
-								} else {
-									//generate table of results
+								$stmt = $conn->prepare($sql);
+                                                                if ($stmt->execute(array())) {
 									if (!$orphs) {
 										echo "<tr><td><a href=\"books.php?courses=".$courses."&years=".$years."&modules=select-module\">All</a></td></tr>";
 									}
-									foreach ($results as $row){
+									while ($row = $stmt->fetch()) {
 										echo "<tr>";
 										echo "<td><a href=\"books.php?courses=select-course&years=select-year&pOrph=yes&modules=".$row['mid']."\">".$row['mid']."</td>";
 										echo "<td>".$row['title']."</a></td>";
@@ -109,7 +96,7 @@
 										}
 										echo "</tr>";
 									}
-								}
+                                                                }
 							} catch ( PDOException $e ) {
 								echo "Query failed: " . $e->getMessage();
 							}

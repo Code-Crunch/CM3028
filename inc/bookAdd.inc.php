@@ -21,30 +21,18 @@
                     echo "Keywords: <input name=\"keywords\" placeholder=\"Keywords\"></input> <br>";
                     
                     try {
-                        $dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-                        // try connecting to the database
-                        $conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-                        // turn on PDO exception handling 
-                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    } catch (PDOException $e) {
-                        // enter catch block in event of error in preceding try block
-                        echo "Connection failed: ".$e->getMessage();
-                    }
-                    try {
                         $sql="SELECT modules.mid
                             FROM modules";
-                        $results=$conn->query($sql);
-                        if ($results->rowcount()==0){
-                            echo "No results <br/>";
-                        } else {
-                            //generate table of results
-                            echo "Attach To Module: <select name=\"addModule\">";
+			
+			$stmt = $conn->prepare($sql);
+			if ($stmt->execute(array())) {
+			    echo "Attach To Module: <select name=\"addModule\">";
                             echo "<option value=\"none\">None</option>";
-                            foreach ($results as $row){
-                                echo "<option value=\"".$row['mid']."\">".$row['mid']."</option>";
-                            }
-                            echo "</select> <br>";
-                        }
+			    while ($row = $stmt->fetch()) {
+				echo "<option value=\"".$row['mid']."\">".$row['mid']."</option>";
+			    }
+			    echo "</select> <br>";
+			}
                     } catch ( PDOException $e ) {
                         echo "Query failed: " . $e->getMessage();
                     }

@@ -17,31 +17,19 @@
                     echo "Start Year: <input name=\"startYear\" placeholder=\"Start Year\"></input> <br>";
                     echo "Duration: <input name=\"duration\" placeholder=\"Duration\"></input> <br>";
                     
-                    try {
-                        $dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-                        // try connecting to the database
-                        $conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-                        // turn on PDO exception handling 
-                        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                    } catch (PDOException $e) {
-                        // enter catch block in event of error in preceding try block
-                        echo "Connection failed: ".$e->getMessage();
-                    }
-                   try {
+		    try {
                         $sql="SELECT modules.mid
                             FROM modules";
-                        $results=$conn->query($sql);
-                        if ($results->rowcount()==0){
-                            echo "No results <br/>";
-                        } else {
-                            //generate table of results
-                            echo "Add Module: <select name=\"addModule\">";
+			
+			$stmt = $conn->prepare($sql);
+			if ($stmt->execute(array())) {
+			    echo "Add Module: <select name=\"addModule\">";
                             echo "<option value=\"none\">None</option>";
-                            foreach ($results as $row){
-                                echo "<option value=\"".$row['mid']."\">".$row['mid']."</option>";
-                            }
-                            echo "</select> To Year: <input name=\"addYear\" placeholder=\"Year\"></input> <br>";
-                        }
+			    while ($row = $stmt->fetch()) {
+				echo "<option value=\"".$row['mid']."\">".$row['mid']."</option>";
+			    }
+			    echo "</select> To Year: <input name=\"addYear\" placeholder=\"Year\"></input> <br>";
+			}
                     } catch ( PDOException $e ) {
                         echo "Query failed: " . $e->getMessage();
                     }

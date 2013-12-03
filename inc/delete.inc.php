@@ -7,52 +7,56 @@
         exit;
     }
     try {
-            $dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-            // try connecting to the database
-            $conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-            // turn on PDO exception handling 
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-            // enter catch block in event of error in preceding try block
-            echo "Connection failed: ".$e->getMessage();
-    }
-    try {
-        $books = htmlentities(mysql_real_escape_string($_GET['books']));
-        $modules = htmlentities(mysql_real_escape_string($_GET['modules']));
-        $courses = htmlentities(mysql_real_escape_string($_GET['courses']));
+        $books = htmlentities($_GET['books']);
+        $modules = htmlentities($_GET['modules']);
+        $courses = htmlentities($_GET['courses']);
         
         if ($books != "") {
+            
             $sql="SELECT * 
                 FROM moduleBooks
                 WHERE moduleBooks.bid = \"".$books."\"";
-            $results=$conn->query($sql);
-            if ($results->rowcount()==0){
-                $sql="DELETE FROM books WHERE books.bid= \"".$books."\" ";
-                $conn->query($sql);
+            $stmt = $conn->prepare($sql);
+            if ($stmt->execute(array())) {
+                if ($stmt->rowCount() == 0) {
+                    $sql="DELETE FROM books WHERE books.bid= \"".$books."\" ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+                }
             }
         } else if ($modules != "") {
+            
             $sql="SELECT * 
                 FROM moduleBooks
                 WHERE moduleBooks.mid = \"".$modules."\"";
-            $results=$conn->query($sql);
-            if ($results->rowcount()==0){
-                $sql="SELECT * 
-                    FROM courseModules
-                    WHERE courseModules.mid = \"".$modules."\"";
-                $results=$conn->query($sql);
-                if ($results->rowcount()==0){
-                    $sql="DELETE FROM modules WHERE modules.mid= \"".$modules."\" ";
-                    $conn->query($sql);
+            $stmt = $conn->prepare($sql);
+            if ($stmt->execute(array())) {
+                if ($stmt->rowCount() == 0) {
+                    $sql="SELECT * 
+                        FROM courseModules
+                        WHERE courseModules.mid = \"".$modules."\"";
+                    $stmt = $conn->prepare($sql);
+                    if ($stmt->execute(array())) {
+                        if ($stmt->rowCount() == 0) {
+                            $sql="DELETE FROM modules WHERE modules.mid= \"".$modules."\" ";
+                            $stmt = $conn->prepare($sql);
+                            $stmt->execute();
+                        }
+                    }
                 }
-            } 
+            }
         } else if ($courses != "") {
+            
             $sql="SELECT * 
                 FROM courseModules
                 WHERE courseModules.cid = \"".$courses."\"";
-            $results=$conn->query($sql);
-            if ($results->rowcount()==0){
-                $sql="DELETE FROM courses WHERE courses.cid= \"".$courses."\" ";
-                $conn->query($sql);
+            $stmt = $conn->prepare($sql);
+            if ($stmt->execute(array())) {
+                if ($stmt->rowCount() == 0) {
+                    $sql="DELETE FROM courses WHERE courses.cid= \"".$courses."\" ";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->execute();
+                }
             }
         }
     } catch ( PDOException $e ) {

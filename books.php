@@ -17,8 +17,6 @@
 		<fieldset class="back">
 			<!-- Start of Sam Cussons code -->
 			<?php
-			ini_set('error_reporting', E_ALL|E_STRICT);
-			ini_set('display_errors', 1);
 				if ($_GET['courses'] == "orphans" && $_GET['years'] == "orphans" && $_GET['modules'] == "orphans") {
 					$orphs = true;
 				}
@@ -55,19 +53,9 @@
 					<!-- Start of Sam Cussons code -->
 					<?php
 						try {
-							$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-							// try connecting to the database
-							$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-							// turn on PDO exception handling 
-							$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-						} catch (PDOException $e) {
-							// enter catch block in event of error in preceding try block
-							echo "Connection failed: ".$e->getMessage();
-						}
-						try {
-							$courses = htmlentities(mysql_real_escape_string($_GET['courses']));
-							$modules = htmlentities(mysql_real_escape_string($_GET['modules']));
-							$years = htmlentities(mysql_real_escape_string($_GET['years']));
+							$courses = htmlentities($_GET['courses']);
+							$modules = htmlentities($_GET['modules']);
+							$years = htmlentities($_GET['years']);
 							
 							
 							$sql="SELECT books.bid, books.title, books.author1, books.author2, books.publisher, books.year, books.keyword
@@ -100,11 +88,11 @@
 									LEFT OUTER JOIN moduleBooks ON moduleBooks.bid = books.bid
 									WHERE moduleBooks.bid IS NULL ";
 							}
-							$results=$conn->query($sql);
-							if ($results->rowcount()==0 || $courses == "select-course" && $modules == "select-module"){
-							} else {
-								//generate table of results
-								foreach ($results as $row){
+							
+							
+							$stmt = $conn->prepare($sql);
+							if ($stmt->execute(array())) {
+								while ($row = $stmt->fetch()) {
 									echo "<tr>";
 									echo "<td>".$row['title']."</td>";
 									echo "<td>".$row['author1']."</td>";

@@ -49,7 +49,9 @@
 					}
 					echo '</ul>';
 				}
-
+			?>
+		
+			<?php
 				if( !isset( $_SESSION['currentUser']) ) {
 					include_once('inc/login_form.inc.php');
 				} else {
@@ -61,7 +63,7 @@
 				<h1 class="title">School of Computing Science &amp; Digital Media</h1>
 				<h2 class="subtitle">Current session: 2013/14</h2>
 			
-				<p class="description">Welcome to CodeCrunch's book searching web application!<br/>To start searching for a book you can either select a course, year or module from the drop down menus and then click search, you will then be shown all the books either in that course, year or module. For a more specific search try selecting an option from more than one of the drop down menus to give all the books that match your input criteria. Alternatively you can do an advance search where you can enter full or partial keywords and that will show you all books that have that matching keyword.</p>
+				<p class="description">This paragraph should contain some information about how to use the application <br /> <br /> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
 		
 				<!-- choices -->
 				<?php
@@ -119,16 +121,6 @@
 									<!-- Start of Sam Cussons code -->
 									<?php
 										try {
-											$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-											// try connecting to the database
-											$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-											// turn on PDO exception handling 
-											$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-										} catch (PDOException $e) {
-											// enter catch block in event of error in preceding try block
-											echo "Connection failed: ".$e->getMessage();
-										}
-										try {
 											$sql="SELECT * FROM courses";
 											$results=$conn->query($sql);
 											if ($results->rowcount()==0){
@@ -142,7 +134,6 @@
 										} catch ( PDOException $e ) {
 											echo "Query failed: " . $e->getMessage();
 										}
-										$conn = null;
 									?>
 									<!-- End of Sam Cussons code -->
 								</select>
@@ -174,16 +165,6 @@
 									<option value="select-module">Select...</option>
 									<!-- Start of Sam Cussons code -->
 									<?php
-										try {
-											$dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-											// try connecting to the database
-											$conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-											// turn on PDO exception handling 
-											$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-										} catch (PDOException $e) {
-											// enter catch block in event of error in preceding try block
-											echo "Connection failed: ".$e->getMessage();
-										}
 										try {
 											$sql="SELECT * FROM modules";
 											$results=$conn->query($sql);

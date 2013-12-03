@@ -7,33 +7,22 @@
     }
 ?>
 <?php
-// Open db connection for SQL to edit/add book
-    try {
-        $dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-        // try connecting to the database
-        $conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-        // turn on PDO exception handling 
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    } catch (PDOException $e) {
-        // enter catch block in event of error in preceding try block
-        echo "Connection failed: ".$e->getMessage();
-    }
     try {
         // test if a bookID has been passed for an edit
         if ($_POST['bookID'] != "") {
             //If so, Create the Edit SQL
-            $bookID = htmlentities(mysql_real_escape_string($_POST['bookID']));
-            $title = htmlentities(mysql_real_escape_string($_POST['title']));
-            $author1 = htmlentities(mysql_real_escape_string($_POST['author1']));
-            $author2 = htmlentities(mysql_real_escape_string($_POST['author2']));
-            $publisher = htmlentities(mysql_real_escape_string($_POST['publisher']));
-            $year = htmlentities(mysql_real_escape_string($_POST['year']));
-            $keywords = htmlentities(mysql_real_escape_string($_POST['keywords']));
-            $addModule = htmlentities(mysql_real_escape_string($_POST['addModule']));
+            $bookID = htmlentities($_POST['bookID']);
+            $title = htmlentities($_POST['title']);
+            $author1 = htmlentities($_POST['author1']);
+            $author2 = htmlentities($_POST['author2']);
+            $publisher = htmlentities($_POST['publisher']);
+            $year = htmlentities($_POST['year']);
+            $keywords = htmlentities($_POST['keywords']);
+            $addModule = htmlentities($_POST['addModule']);
             
             
             
-            if (strlen($title)<7 || strlen($author1)<7 || strlen($author2)<7 || strlen($publisher)<7 || strlen($keywords)<7 || $year<1500 || $year>date('Y') || strlen(substr(trim($bookID),0,4))!=4) {
+            if (strlen($title)<7 || strlen($author1)<7 || strlen($author2)<7 || strlen($publisher)<7 || strlen($keywords)<14 || $year<1500 || $year>date('Y') || strlen(substr(trim($bookID),0,4))!=4) {
                 header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
                 exit;
             }
@@ -46,6 +35,7 @@
             $keywords = substr(trim($keywords),0,100);
             $year = substr(trim($year),0,4);
             
+            
             $sql="INSERT INTO books VALUES (\"".$bookID."\",
                     \"".$title."\",
                     \"".$author1."\",
@@ -53,34 +43,22 @@
                     \"".$publisher."\",
                     ".$year.",
                     \"".$keywords."\")";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
         }
-        // Run the SQL
-        $results=$conn->query($sql);
-        
     } catch ( PDOException $e ) {
         echo "Query failed: " . $e->getMessage();
     }
-    $conn = null;
     
     // If Add module has been set, open a connection to the db and create the record
     if ($addModule != "none") {
+        
         try {
-            $dsn = "mysql:host=localhost;dbname=".$mysqldatabase;
-            // try connecting to the database
-            $conn = new PDO($dsn, $mysqlusername, $mysqlpassword);
-            // turn on PDO exception handling 
-            $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        } catch (PDOException $e) {
-            // enter catch block in event of error in preceding try block
-            echo "Connection failed: ".$e->getMessage();
-        }
-        try {
-            // Create the SQL
-            $sql="INSERT IGNORE INTO moduleBooks
-                    SET moduleBooks.bid=\"".$bookID."\", moduleBooks.mid =\"".$addModule."\"";
-            // Run the SQL
-            $results=$conn->query($sql);
             
+            $sql="INSERT IGNORE INTO moduleBooks SET moduleBooks.bid=\"".
+                    $bookID."\", moduleBooks.mid =\"".$addModule."\"";
+            $stmt = $conn->prepare($sql);
+            $stmt->execute();
         } catch ( PDOException $e ) {
             echo "Query failed: " . $e->getMessage();
         }
