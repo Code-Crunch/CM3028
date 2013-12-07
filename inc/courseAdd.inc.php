@@ -11,7 +11,7 @@
     <form id="edit" method="post" action="makeCourseAdd.inc.php">
         <fieldset class="edits">
             <?php
-                if ($_GET['courses'] == "") {
+                
                     echo "Course ID: <input name=\"courseID\" placeholder=\"Course ID\"></input> <br>";
                     echo "Title: <input name=\"title\" placeholder=\"Course Title\"></input> <br>";
                     echo "Start Year: <input name=\"startYear\" placeholder=\"Start Year\"></input> <br>";
@@ -35,7 +35,7 @@
                     }
                     $conn = null;
                     echo "<input type=\"submit\" name=\"Edit\" value=\"Add\">";
-                }
+                
             ?>
         </fieldset>
     </form>

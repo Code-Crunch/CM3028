@@ -20,16 +20,18 @@
         $sql="SELECT *
                 FROM courseModules
                 WHERE courseModules.cid = \"". $courseID . "\"";
-        $stmt = $conn->prepare($sql);
-        $stmt->execute();   
-        if ($results->rowcount()!=0) {
-            while ($row = $stmt->fetch()) {
-                if ($row['year']<$startYear || $row['year']>($startYear+$duration-1)) {
-                    header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
-                    exit;
-                }
-            }
-        }
+        $stmt = $conn->prepare($sql); 
+
+		if ($stmt->execute(array())) {
+			if ($stmt->rowCount() != 0) { 
+				while ($row = $stmt->fetch()) {
+					if ($row['year']<$startYear || $row['year']>($startYear+$duration-1)) {
+						header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
+						exit;
+					}
+				}
+			}
+		}
         
         if (strlen($title)<7 || $startYear<1 || $duration<1) {
             header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");

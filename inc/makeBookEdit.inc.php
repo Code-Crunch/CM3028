@@ -18,7 +18,7 @@
         $addModule = htmlentities($_POST['addModule']);
         $removeModule = htmlentities($_POST['removeModule']);
         
-        if (strlen($title)<7 || strlen($author1)<7 || strlen($author2)<7 || strlen($publisher)<7 || strlen($keywords)<7 || $year<1500 || $year>date('Y')) {
+        if (strlen($title)<7 || strlen($author1)<7 || strlen($publisher)<7 || strlen($keywords)<7 || $year<1500 || $year>date('Y')) {
             header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
             exit;
         }

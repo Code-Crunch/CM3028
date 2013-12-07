@@ -66,7 +66,7 @@
 								LEFT JOIN courseModules ON moduleBooks.mid = courseModules.mid ";
 							if ($courses == "select-course" && $modules == "select-module") {
 								// Nothing set so BOOKS.PHP
-								echo "<tr><td>Nothing Selected</td></tr>";
+								echo "<h2>&nbsp;&nbsp;&nbsp;Please select either Course or Module!</h2>";
 							} else if ($courses != "select-course" && $years != "select-year" && $modules != "select-module"){
 								// Course, Module and Year SET so BOOKS.PHP
 								$sql = $sql. "WHERE courseModules.cid =  \"".$courses."\" AND moduleBooks.mid = \"".$modules."\" AND courseModules.year = \"".$years."\"" ;

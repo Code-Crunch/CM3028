@@ -13,7 +13,7 @@
             <?php
                 if ($_GET['modules'] != "") {
                     try {
-                        $modules = htmlentities(mysql_real_escape_string($_GET['modules']));
+                        $modules = htmlentities($_GET['modules']);
                         
                         $sql="SELECT modules.mid, modules.title, modules.descr
                         FROM modules
