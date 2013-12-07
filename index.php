@@ -2,6 +2,7 @@
 	session_start();
 	ob_start();
 	require_once "inc/database.inc.php";
+	//new
 ?>
 <!-- Marina Shchukina, 1014481 
 	BEM methodology is behind all the html elements naming conventions
