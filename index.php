@@ -1,10 +1,9 @@
 <?php
 	session_start();
 	ob_start();
-	require_once "inc/database.inc.php";
-	//new
+	require_once "config/database.inc.php";
 ?>
-<!-- Marina Shchukina, 1014481 
+<!-- All HTML by Marina Shchukina, 1014481 
 	BEM methodology is behind all the html elements naming conventions
 	http://bem.info/method/
 -->
@@ -16,6 +15,7 @@
 	</head>
 	<body>
 		<?php
+		//START of Marina Shchukina's code, 1014481 
 			$loginDetails = 'login_details_encrypted.txt';
 			$error = array();
 			$loginRequested = isset( $_POST['login']); //boolean
@@ -30,19 +30,21 @@
 			if( $loginRequested ) {	
 				require_once('inc/login.inc.php');	
 			}
+		//END of Marina Shchukina's code, 1014481 
 		?>
 		<div id="textbooksApp-main">
 	
 			<!-- keyword search -->
-			<form id="search" method="get" action="">
+			<form id="search" method="get" action="books.php">
 				<fieldset class="keywordSearch">
-					<input class="keywordSearch__input"></input>
-					<input type="submit" name="search" class="keywordSearch__search btn" value="Search &gt;">
+					<input class="keywordSearch__input" type="text" name="search">
+					<input type="submit" class="keywordSearch__search btn">
 				</fieldset>
 			</form>
 			<!-- /keyword search -->
 		
 			<?php
+				//START of Marina Shchukina's code, 1014481 
 				if( !empty($error) ) {
 					echo '<ul class="loginError">';
 					foreach ($error as $key => $value) {
@@ -50,21 +52,19 @@
 					}
 					echo '</ul>';
 				}
-			?>
-		
-			<?php
 				if( !isset( $_SESSION['currentUser']) ) {
 					include_once('inc/login_form.inc.php');
 				} else {
 					include_once('inc/logout_form.inc.php');
 				}
+				//END of Marina Shchukina's code, 1014481 
 			?>
 		
 			<div class="innerWrapper">
 				<h1 class="title">School of Computing Science &amp; Digital Media</h1>
 				<h2 class="subtitle">Current session: 2013/14</h2>
 			
-				<p class="description">This paragraph should contain some information about how to use the application <br /> <br /> Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat. Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis at vero eros et accumsan et iusto odio dignissim qui blandit praesent luptatum zzril delenit augue duis dolore te.</p>
+				<p class="description">Welcome to CodeCrunch's book searching web application. <br /> <br /> To start searching for a book you can either select a course, year or module from the drop down menus and then click search, you will then be shown all the books either in that course, year or module. For a more specific search try selecting an option from more than one of the drop down menus to give all the books that match your input criteria. Alternatively you can do an advance search where you can enter full or partial keywords separated by a ", " and that will show you all books that have matching keyword/s.</p>
 		
 				<!-- choices -->
 				<?php
@@ -148,11 +148,22 @@
 						<div class="choices__select">
 							<div class="select">
 								<select class="choices__year" name="years" id="years" >
-									<option value="select-year">Select...</option>
-									<option value="1">1</option>
-									<option value="2">2</option>
-									<option value="3">3</option>
-									<option value="4">4</option>
+									<?php
+										try {
+											$sql="SELECT GREATEST(MAX(startYear), MAX(duration)) as high FROM courses WHERE 1
+												ORDER BY startyear DESC 
+												LIMIT 1";
+											$results=$conn->query($sql);
+											foreach ($results as $row){
+												for ($c=1; $c <= ($row['high']); $c++) {
+													echo "<option value=\"".$c."\">".$c."</option>";
+												}
+											}
+											
+										} catch ( PDOException $e ) {
+											echo "Query failed: " . $e->getMessage();
+										}
+									?>
 								</select>
 							</div>
 						</div>
@@ -195,7 +206,6 @@
 					</fieldset>
 				</form>
 				<!-- /choices -->
-		
 			</div>
 		
 			<?php include_once('inc/footer.inc.php'); ?>

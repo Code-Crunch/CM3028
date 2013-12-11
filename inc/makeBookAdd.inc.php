@@ -22,7 +22,7 @@
             
             
             
-            if (strlen($title)<7 || strlen($author1)<7 || strlen($author2)<7 || strlen($publisher)<7 || strlen($keywords)<14 || $year<1500 || $year>date('Y') || strlen(substr(trim($bookID),0,4))!=4) {
+            if (strlen($title)<7 || strlen($author1)<7 || strlen($publisher)<7 || strlen($keywords)<14 || $year<1500 || $year>=date('Y') || strlen(substr(trim($bookID),0,4))!=4) {
                 header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
                 exit;
             }
