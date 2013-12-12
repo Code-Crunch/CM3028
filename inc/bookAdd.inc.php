@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
     <?php
         session_start();
-        require_once "database.inc.php";
+        require_once "../config/database.inc.php";
         if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {} else {
 	    header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
             exit;
@@ -12,7 +12,7 @@
         <fieldset class="edits">
             <?php
                 if (!isset($_GET['books'])) { //MS
-                    echo "Book ID: <input name=\"bookID\" placeholder=\"Book ID\"></input> <br>";
+                    echo "Book ID: <input name=\"bookID\" placeholder=\"Book ID (e.g., B001)\"></input> <br>";
                     echo "Title: <input name=\"title\" placeholder=\"Book Title\"></input> <br>";
                     echo "First Author: <input name=\"author1\" placeholder=\"First Author\"></input> <br>";
                     echo "Second Author: <input name=\"author2\" placeholder=\"Second Author\"></input> <br>";

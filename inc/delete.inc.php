@@ -1,7 +1,7 @@
 <!-- ALL CODE BY SAM CUSSON -->
 <?php
     session_start();
-    require_once "database.inc.php";
+    require_once "../config/database.inc.php";
     if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {} else {
         header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
         exit;

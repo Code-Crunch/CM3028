@@ -16,4 +16,5 @@ MS: Sam, I was getting errors in the final code, had to make some chenges to cor
 	addBook.php
 Otherwise works great!
 
-There is not such a thing as "HTML scripting!" :-). Has to be changed in the database before submission.
+# MS: now code is checking whether user submits more than 5 keywords
+# Placeholders added

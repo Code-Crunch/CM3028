@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
     <?php
         session_start();
-        require_once "database.inc.php";
+        require_once "../config/database.inc.php";
         if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {} else {
 	    header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
             exit;

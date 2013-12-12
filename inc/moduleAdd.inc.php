@@ -2,7 +2,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://opengraphprotocol.org/schema/" xml:lang="en-GB">
     <?php
         session_start();
-        require_once "database.inc.php";
+        require_once "../config/database.inc.php";
+        
         if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {} else {
 	    header("Location:".dirname(dirname($_SERVER['PHP_SELF']))."/index.php");
             exit;
@@ -12,8 +13,8 @@
         <fieldset class="edits">
             <?php
 
-            if (!isset($_GET['modules'])) { //MS
-		    echo "Module ID: <input name=\"moduleID\" placeholder=\"Module ID\"></input> <br>";
+            if (!isset($_GET['modules'])) { //changed by Marina Shchukina, 1014481
+		    echo "Module ID: <input name=\"moduleID\" style=\"width:200px;\" placeholder=\"Module ID, (e.g., M00001)\"></input> <br>";
 		    echo "Title: <input name=\"title\" placeholder=\"Module Title\"></input> <br>";
 		    echo "Description: <input name=\"descr\" placeholder=\"Module Description\"></input> <br>";
                                                 

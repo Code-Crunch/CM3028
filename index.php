@@ -35,10 +35,10 @@
 		<div id="textbooksApp-main">
 	
 			<!-- keyword search -->
-			<form id="search" method="get" action="books.php">
+			<form id="search" method="GET" action="books.php">
 				<fieldset class="keywordSearch">
-					<input class="keywordSearch__input" type="text" name="search">
-					<input type="submit" class="keywordSearch__search btn">
+					<input class="keywordSearch__input" type="text" name="search"></input>
+					<input type="submit" value="GO &gt;" class="keywordSearch__search btn"></input>
 				</fieldset>
 			</form>
 			<!-- /keyword search -->

@@ -17,14 +17,14 @@
 		<fieldset class="back">
 			<!-- Start of Sam Cussons code -->  
 			<?php
-                                //Jonny's Code Start
+                //Jonny's Code Start
 				if (isset($_GET['search'])) {  
-                                        echo "<a href=\"index.php\" class=\"btn\">&lt; Home</a>";
-                                //Jonny's Code End
-                                }else{
-                                    $orphs=false; //MS
+                    echo "<a href=\"index.php\" class=\"btn\">&lt; Home</a>";
+                    //Jonny's Code End
+                }else{
+                    $orphs=false; //MS
 
-                                    if ($_GET['courses'] == "orphans" && $_GET['years'] == "orphans" && $_GET['modules'] == "orphans") {
+                if ($_GET['courses'] == "orphans" && $_GET['years'] == "orphans" && $_GET['modules'] == "orphans") {
 					$orphs=true;
 				}
                                 
@@ -61,50 +61,77 @@
 				<tbody>
 					<!-- Start of Sam Cussons code -->
 					<?php
-                                            //Jonny's Code Start
-                                            if (isset($_GET['search'])) {
-                                                try {
-                                                    //$search = mysql_real_escape_string($_GET['search']);
-                                                    $search = $_GET['search'];
-                                                    //Gets user input data from index.php
-                                                    $keyword_tokens = explode(', ',$search);
-                                                    //Removes the commas and makes $keyword_tokens an array of the inputted keywords
-                                                    $sql="SELECT books.bid, books.title, books.author1, books.author2, books.publisher, books.year, books.keyword FROM books ";
-                                                    $sql = $sql . "WHERE books.keyword LIKE '' ";
-                                                    //Creating SQL statement
-                                                    foreach($keyword_tokens as $k){
-                                                        $sql = $sql . "OR books.keyword LIKE \"%" . $k ."%\"";
-                                                    }
-                                                    //Loops through the keywords and adds them the the query
-                                                    $sql = $sql." ORDER BY books.title";
-                                                    //Orders the books alphabetically by title
-                                                    $stmt = $conn->prepare($sql);
-                                                    if ($stmt->execute(array())) {
-                                                        while ($row = $stmt->fetch()) {
-                                                            echo "<tr>";
-                                                            echo "<td>".$row['title']."</td>";
-                                                            echo "<td>".$row['author1']."</td>";
-                                                            echo "<td>".$row['author2']."</td>";
-                                                            echo "<td>".$row['publisher']."</td>";
-                                                            echo "<td>".$row['year']."</td>";
-                                                            echo "<td>".$row['keyword']."</td>";
-                                                            if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {
+                //Jonny's Code Start
+                if (isset($_GET['search'])) {
+                    try {
+                   
+                //Start of Marina Shchukina's code
+                    /* Filtering the keyword search user input */
+                    
+
+                    //removing potential commas, etc. from the beginning/end of the string
+                    $search = rtrim($_GET['search'], "\",\x0A\x0D"); 
+                    
+                    //making sure user entered no more than 5 keywords
+                    if(substr_count($search, ',') > 4) {
+                            $max = strlen($search);
+                            $n = 0;
+                            for($i=0; $i<$max; $i++){
+                                if($search[$i]==","){
+                                    $n++;
+                                    if($n>=5){
+                                        break;
+                                    }
+                                }
+                            }
+                            $arr[] = substr($search,0,$i);
+                            $arr[] = substr($search,$i+1,$max);
+                            $new_string=$arr[0];
+                            $search=$new_string;
+
+                        }
+
+                //End of Marina Shchukina's code
+
+                        //Gets user input data from index.php
+                        $keyword_tokens = explode(', ',$search);
+                        //Removes the commas and makes $keyword_tokens an array of the inputted keywords
+                        $sql="SELECT books.bid, books.title, books.author1, books.author2, books.publisher, books.year, books.keyword FROM books ";
+                        $sql = $sql . "WHERE books.keyword LIKE '' ";
+                        //Creating SQL statement
+                        foreach($keyword_tokens as $k){
+                            $sql = $sql . "OR books.keyword LIKE \"%" . $k ."%\"";
+                        }
+                        //Loops through the keywords and adds them the the query
+                        $sql = $sql." ORDER BY books.title";
+                        //Orders the books alphabetically by title
+                        $stmt = $conn->prepare($sql);
+                        if ($stmt->execute(array())) {
+                            while ($row = $stmt->fetch()) {
+                                echo "<tr>";
+                                echo "<td>".$row['title']."</td>";
+                                echo "<td>".$row['author1']."</td>";
+                                echo "<td>".$row['author2']."</td>";
+                                echo "<td>".$row['publisher']."</td>";
+                                echo "<td>".$row['year']."</td>";
+                                echo "<td>".$row['keyword']."</td>";
+                                if(isset($_SESSION['currentUser']) && $_SESSION['currentAccessLevel'] == 1) {
 								echo "<td><a href=\"inc/bookEdit.inc.php?books=".$row['bid']."\">Edit</a></td>";
-                                                            }
-                                                            echo "</tr>";
-                                                        }
-                                                    }
-                                                    //Populates the table with the data from the appropriate books
-                                                    } catch ( PDOException $e ) {
-							echo "Query failed: " . $e->getMessage();
-                                                    }
-                                                    //catches errors
-                                                    $conn = null;   
-                                                    //ends connection
-                                                    //Jonny's Code End
-                                            }else{
-                                                
-                                                    try {
+                                }
+                                echo "</tr>";
+                            }
+                        }
+                        //Populates the table with the data from the appropriate books
+                        } catch ( PDOException $e ) {
+                            echo "Query failed: " . $e->getMessage();
+                        }
+                        //catches errors
+                        $conn = null;   
+                        //ends connection
+                        //Jonny's Code End
+                }else{
+                    
+                        try {
                                                         
 							$courses = htmlentities($_GET['courses']);
 							$modules = htmlentities($_GET['modules']);
